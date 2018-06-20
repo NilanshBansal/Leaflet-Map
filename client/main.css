@@ -1,0 +1,18 @@
+/* CSS declarations go here */
+
+.leaflet-container {
+    height: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.marker-cluster-custom {
+    background: #9370db;
+    border: 3px solid #ededed;
+    border-radius: 50%;
+    color: #ededed;
+    height: 20px;
+    line-height: 15px;
+    text-align: center;
+    width: 20px;
+}
