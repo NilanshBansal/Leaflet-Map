@@ -55,7 +55,13 @@ function getLeafletPopup(name) {
 
 const Map1 = () => {
     return (
-        <Map className="markercluster-map" center={MAP_CENTER_COORDINATES} zoom={MAP_ZOOM} maxZoom={MAP_MAX_ZOOM}>
+        <Map className="markercluster-map" center={MAP_CENTER_COORDINATES} zoom={MAP_ZOOM} maxZoom={MAP_MAX_ZOOM} 
+        onMoveend={(e)=>console.log("dekh bhai dekh",e)} 
+        onMovestart={(e)=>console.log("dekh bhai dekh2",e)}
+        onDblclick={()=>console.log("dekh bhai dekh3")}
+        onViewportChanged={(e)=>console.log("viewport",e)}
+        onclick={(e)=>alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)}
+        >
             {/* <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -69,7 +75,7 @@ const Map1 = () => {
                 onMarkerClick={(marker) => console.log(marker, marker.getLatLng())}
                 onClusterClick={(cluster) => console.log(cluster, cluster.getAllChildMarkers())}
                 onPopupClose={(popup) => console.log(popup, popup.getContent())}
-                markerOptions={{ title: 'Default title' }}
+                markerOptions={{ title: 'Default title' }}              
             >
                 <Circle radius={500} center={{lat:31.61973338042743,lng:80.26946716308594}} color={'red'} fillColor={'green'}/>
             </MarkerClusterGroup>
