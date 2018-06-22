@@ -34,7 +34,9 @@ export default class SimpleExample extends React.Component {
       lat: 27.56281321321839,
       lng: 76.222900390625,
       zoom: 4,
-      tooltipPosition: { lat: null, lng: null }
+      tooltipPosition: { lat: null, lng: null },
+      malePercent: null,
+      femalePercent: null
     };
   }
 
@@ -44,10 +46,10 @@ export default class SimpleExample extends React.Component {
 
   render() {
     const markers = [
-      { position: [27.56281321321839, 76.222900390625], tooltip: '1' },
-      { position: [28.6833592931406, 77.200927734375], popup: '2' },
-      { position: [29.618281599983852, 78.11578369140625], popup: '3' },
-      { position: [30.65444085998448, 79.29156494140625], popup: '4' },
+      { position: [27.56281321321839, 76.222900390625], tooltip: '1', options: { gender: 'M' } },
+      { position: [28.6833592931406, 77.200927734375], popup: '2', options: { gender: 'F' } },
+      { position: [29.618281599983852, 78.11578369140625], popup: '3', options: { gender: 'M' } },
+      { position: [30.65444085998448, 79.29156494140625], popup: '4', options: { gender: 'M' } },
       // {position:[31.61973338042743,80.26946716308594],options:{icon:redCircle}, popup: getLeafletPopup('5') }
     ];
     const position = [this.state.lat, this.state.lng];
@@ -70,13 +72,30 @@ export default class SimpleExample extends React.Component {
           onPopupClose={(popup) => console.log(popup, popup.getContent())}
           markerOptions={{ title: 'Default title' }}
           onClusterMouseover={(cluster) => {
-            console.log("YESSSSS!", cluster.getAllChildMarkers())
-            console.log("done")
+            console.log(cluster.getAllChildMarkers())
             console.log(cluster.getBounds())
+            let childMarkers = cluster.getAllChildMarkers();
             let bounds = cluster.getBounds();
             let lat = (bounds['_northEast'].lat + bounds['_southWest'].lat) / 2;
             let lng = (bounds['_northEast'].lng + bounds['_southWest'].lng) / 2;
-            this.setState({ tooltipPosition: { lat, lng } })
+            let maleCount = 0;
+            let femaleCount = 0;
+
+            childMarkers.forEach(el => {
+              console.log(el.options.gender)
+              if (el.options.gender == 'M') {
+                maleCount++;
+              }
+              else if (el.options.gender == 'F') {
+                femaleCount++;
+              }
+            })
+            let totalCount = maleCount + femaleCount;
+            let malePercent = (maleCount / totalCount) * 100;
+            let femalePercent = (femaleCount / totalCount) * 100;
+            console.log("Male cOUNT", maleCount);
+            console.log("feMale cOUNT", femaleCount);
+            this.setState({ tooltipPosition: { lat, lng }, malePercent, femalePercent })
             console.log(this.state)
           }}
         />
@@ -86,7 +105,7 @@ export default class SimpleExample extends React.Component {
             this.setState({ tooltipPosition: { lat: null, lng: null } })
           }}
         >
-          <Tooltip ><div style={{ height: 50, width: 300 }}> Male:70% Female:30%</div></Tooltip>
+          <Tooltip ><div style={{ height: 50, width: 300 }}> Male:{this.state.malePercent}% Female:{this.state.femalePercent}%</div></Tooltip>
         </CircleMarker>
       </Map>
     );
