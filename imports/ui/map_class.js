@@ -24,7 +24,7 @@ class CustomMarkerClusterGroup extends MarkerClusterGroup {
           this.props[k](map.popup);
         });
       }
-    })  
+    })
   }
 }
 export default class SimpleExample extends React.Component {
@@ -52,23 +52,26 @@ export default class SimpleExample extends React.Component {
     const position = [this.state.lat, this.state.lng];
     return (
       <Map center={position} zoom={this.state.zoom} ref='map'
-      onViewportChanged={(e)=>console.log(e,this.refs.map.leafletElement.getBounds())}
-        onclick={(e)=>alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)}
-        onMouseover={(e)=>console.log("see",this.refs.map.leafletElement)}
+        onViewportChanged={(e) => console.log(e, this.refs.map.leafletElement.getBounds())}
+        onclick={(e) => alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)}
+        onMouseover={(e) => console.log("see", this.refs.map.leafletElement)}
 
-    >
+      >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
 
-        <MarkerClusterGroup
+        <CustomMarkerClusterGroup
           markers={markers}
           onMarkerClick={(marker) => console.log(marker, marker.getLatLng())}
           onClusterClick={(cluster) => console.log(cluster, cluster.getBounds())}
           onPopupClose={(popup) => console.log(popup, popup.getContent())}
-          markerOptions={{ title: 'Default title' }}          
-          onClusterMouseover={(cluster) => console.log("YESSSSS!",cluster.getAllChildMarkers())}      
+          markerOptions={{ title: 'Default title' }}
+          onClusterMouseover={(cluster) => {
+            console.log("YESSSSS!", cluster.getAllChildMarkers())
+            console.log("done")
+          }}
         />
       </Map>
     );
