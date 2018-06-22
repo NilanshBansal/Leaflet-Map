@@ -1,6 +1,6 @@
 import React from "react";
 import L from 'leaflet';
-import { Map, TileLayer, Marker, Popup, Circle } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, Circle,Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 class CustomMarkerClusterGroup extends MarkerClusterGroup {
   initEventListeners(markerClusterGroup) {
@@ -34,6 +34,7 @@ export default class SimpleExample extends React.Component {
       lat: 27.56281321321839,
       lng: 76.222900390625,
       zoom: 4,
+      tooltipPosition:{lat:null,lng:null}
     };
   }
 
@@ -43,7 +44,7 @@ export default class SimpleExample extends React.Component {
 
   render() {
     const markers = [
-      { position: [27.56281321321839, 76.222900390625], popup: '1' },
+      { position: [27.56281321321839, 76.222900390625], tooltip: '1' },
       { position: [28.6833592931406, 77.200927734375], popup: '2' },
       { position: [29.618281599983852, 78.11578369140625], popup: '3' },
       { position: [30.65444085998448, 79.29156494140625], popup: '4' },
@@ -70,9 +71,18 @@ export default class SimpleExample extends React.Component {
           markerOptions={{ title: 'Default title' }}
           onClusterMouseover={(cluster) => {
             console.log("YESSSSS!", cluster.getAllChildMarkers())
-            console.log("done")
+            console.log("done")    
+            console.log(cluster.getBounds())  
+            let bounds=cluster.getBounds();
+            let lat = (bounds['_northEast'].lat + bounds['_southWest'].lat)/2;
+            let lng = (bounds['_northEast'].lng + bounds['_southWest'].lng)/2;
+            this.setState({tooltipPosition:{lat,lng}})
+            console.log(this.state)
           }}
         />
+        <Marker position={{lat:this.state.tooltipPosition.lat,lng:this.state.tooltipPosition.lng}} icon={L.icon({iconUrl: '/images/marker_map_i.png',iconSize:[40, 40]})}>
+        <Tooltip ><div style={{height:50,width:300}}> Male:70% Female:30%</div></Tooltip>
+        </Marker>
       </Map>
     );
   }
