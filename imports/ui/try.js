@@ -1,59 +1,43 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 
-export default class AnimateExample extends Component {
-  state = {
-    animate: false,
-    latlng: {
-      lat: 51.505,
-      lng: -0.09,
-    },
-  }
+import {
+  Circle,
+  FeatureGroup,
+  LayerGroup,
+  Map,
+  Popup,
+  Rectangle,
+  TileLayer,
+  Tooltip,
+  CircleMarker
+} from 'react-leaflet'
 
-  handleClick = e => {
-    this.setState({
-      latlng: e.latlng,
-    })
-  }
-
-  toggleAnimate = () => {
-    this.setState({
-      animate: !this.state.animate,
-    })
-  }
-
+export default class OtherLayersExample extends Component {
   render() {
-    const marker = this.state.hasLocation ? (
-      <Marker position={this.state.latlng}>
-        <Popup>
-          <span>You are here</span>
-        </Popup>
-      </Marker>
-    ) : null
+    const center = [51.505, -0.09]
+    const rectangle = [[51.49, -0.08], [51.5, -0.06]]
 
     return (
-      <div style={{ textAlign: 'center' }}>
-        <label>
-          <input
-            checked={this.state.animate}
-            onChange={this.toggleAnimate}
-            type="checkbox"
-          />
-          Animate panning
-        </label>
-        <Map
-          animate={this.state.animate}
-          center={this.state.latlng}
-          length={4}
-          onClick={this.handleClick}
-          zoom={13}>
-          <TileLayer
-            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {marker}
-        </Map>
-      </div>
+      <Map center={center} zoom={13}>
+        <TileLayer
+          attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <LayerGroup>
+          <CircleMarker center={center} fillColor="black" radius={200} >
+            <Tooltip ><div style={{ height: 50, width: 300 }}> Male:% Female:%</div></Tooltip>
+            <Circle center={center} fillColor="red" radius={100} stroke={false} >
+              <Tooltip ><div style={{ height: 150, width: 300 }}> Inner :%</div></Tooltip>
+
+            </Circle>
+            <MarkerClusterGroup />
+
+          </CircleMarker>
+
+        </LayerGroup>
+
+      </Map>
     )
   }
 }
