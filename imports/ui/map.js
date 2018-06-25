@@ -53,7 +53,7 @@ function getLeafletPopup(name) {
       `);
 }
 
-const Map1 = () => {
+const Map2 = () => {
     return (
         <Map className="markercluster-map" center={MAP_CENTER_COORDINATES} zoom={MAP_ZOOM} maxZoom={MAP_MAX_ZOOM}
             onMoveend={(e) => console.log("dekh bhai dekh", e)}
@@ -84,4 +84,4 @@ const Map1 = () => {
     );
 }
 
-export default Map1;
+export default Map2;

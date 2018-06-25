@@ -1,4 +1,5 @@
 import React from "react";
+import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap'
 import L from 'leaflet';
 import { Map, TileLayer, Marker, Popup, Circle, Tooltip, CircleMarker } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
@@ -27,6 +28,11 @@ class CustomMarkerClusterGroup extends MarkerClusterGroup {
     })
   }
 }
+
+const DEFAULT_VIEWPORT = {
+      center: [22, 70],
+      zoom: 13,
+    } 
 export default class SimpleExample extends React.Component {
   constructor() {
     super();
@@ -36,13 +42,45 @@ export default class SimpleExample extends React.Component {
       zoom: 4,
       tooltipPosition: { lat: null, lng: null },
       malePercent: null,
-      femalePercent: null
+      femalePercent: null,
+      viewport: DEFAULT_VIEWPORT,
+      query: ""
+
     };
   }
 
   componentDidMount() {
     console.log(this.refs.map.leafletElement.getBounds())
   }
+
+  getCoordinates() {
+    console.log('here')
+    let URL = `http://api.geonames.org/searchJSON?q=${this.state.query}&maxRows=1&username=sanchittanwar7`
+    fetch(URL, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(json => {
+        console.log(json);
+        let center = [], zoom
+        center.push(parseFloat(json.geonames[0].lat))
+        center.push(parseFloat(json.geonames[0].lng))
+        if(json.geonames[0].fcl === 'A')
+            zoom = 4
+        else
+            zoom = 10
+        let viewport = {
+            center: center,
+            zoom: zoom
+        }
+        console.log(viewport)
+        this.setState({viewport})
+        // console.log('artist', artist);
+        // this.setState({artist, stats: artist.stats, bio: artist.bio, images: artist.image});
+    });
+  }
+
+
 
   render() {
     const markers = [
@@ -86,10 +124,33 @@ export default class SimpleExample extends React.Component {
     ];
     const position = [this.state.lat, this.state.lng];
     return (
+      <div>
+      <FormGroup>
+            <InputGroup>
+                <FormControl
+                    type = "text"
+                    placeholder = "Search for an place"
+                    value = {this.state.query}
+                    onChange = {event => {this.setState({query: event.target.value})}}
+                    onKeyPress = { event => {
+                        if(event.key === 'Enter'){
+                            this.getCoordinates();
+                        }
+                    }}
+                />
+                <InputGroup.Addon className =  "searchButton" onClick = {() => this.getCoordinates()}>
+                    <Glyphicon glyph = "search"></Glyphicon>
+                </InputGroup.Addon>
+            </InputGroup>
+        </FormGroup>
       <Map center={position} zoom={this.state.zoom} ref='map'
         onViewportChanged={(e) => console.log(e, this.refs.map.leafletElement.getBounds())}
-        onclick={(e) => alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)}
+        onclick={(e) => {
+          alert("Lat, Lon : " + e.latlng.lat + ", " + e.latlng.lng)
+          this.setState({ viewport: DEFAULT_VIEWPORT })
+        }}
         onMouseover={(e) => console.log("see", this.refs.map.leafletElement)}
+        viewport={this.state.viewport}
 
       >
         <TileLayer
@@ -140,6 +201,7 @@ export default class SimpleExample extends React.Component {
           <Tooltip ><div style={{ height: 50, width: 300 }}> Male:{this.state.malePercent}% Female:{this.state.femalePercent}%</div></Tooltip>
         </CircleMarker>
       </Map>
+      </div>
     );
   }
 }
