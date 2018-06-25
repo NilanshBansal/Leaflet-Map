@@ -45,45 +45,20 @@ export default class SimpleExample extends React.Component {
   }
 
   render() {
+    const redMarker = L.icon({
+      iconUrl: '/images/marker_map_icon.png',
+      iconSize: [40, 40],
+      iconAnchor: [40, 40],
+      popupAnchor: [-20, -25],
+      tooltipAnchor: [-20, -25]
+    });
     const markers = [
-      {
-        position: [27.56281321321839, 76.222900390625], tooltip: '1', options: {
-          gender: 'M',
-          icon: L.icon({
-            iconUrl: '/images/marker_map_icon.png',
-            iconSize: [40, 40],
-            iconAnchor: [40, 40],
-            popupAnchor: [-20, -25],
-            tooltipAnchor:[-20, -25]
-          })
-        }
-      },
+      { position: [27.56281321321839, 76.222900390625], tooltip: '1', options: { gender: 'M', icon: redMarker } },
       { position: [28.6833592931406, 77.200927734375], popup: '2', options: { gender: 'F' } },
-      {
-        position: [29.618281599983852, 78.11578369140625], popup: '3', options: {
-          gender: 'M', icon: L.icon({
-            iconUrl: '/images/marker_map_icon.png',
-            iconSize: [40, 40],
-            iconAnchor: [40, 40],
-            popupAnchor: [-20, -25],
-            tooltipAnchor:[-20, -25]
-          })
-        }
-      },
-      {
-        position: [30.65444085998448, 79.29156494140625], popup: '4', options: {
-          gender: 'M',
-          icon: L.icon({
-            iconUrl: '/images/marker_map_icon.png',
-            iconSize: [40, 40],
-            iconAnchor: [40, 40],
-            popupAnchor: [-20, -25],
-            tooltipAnchor:[-20, -25]
-          })
-        }
-      },
-      // {position:[31.61973338042743,80.26946716308594],options:{icon:redCircle}, popup: getLeafletPopup('5') }
+      { position: [29.618281599983852, 78.11578369140625], popup: '3', options: { gender: 'M', icon: redMarker } },
+      { position: [30.65444085998448, 79.29156494140625], popup: '4', options: { gender: 'M', icon: redMarker } },
     ];
+
     const position = [this.state.lat, this.state.lng];
     return (
       <Map center={position} zoom={this.state.zoom} ref='map'
