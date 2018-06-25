@@ -169,7 +169,7 @@ export default class SimpleExample extends React.Component {
               console.log(this.state)
             }}
           />
-          <CircleMarker center={{ lat: this.state.tooltipPosition.lat, lng: this.state.tooltipPosition.lng }} radius={50} fillColor={'red'} stroke={false}
+          <CircleMarker center={{ lat: this.state.tooltipPosition.lat, lng: this.state.tooltipPosition.lng }} radius={50} fillColor={'brown'} fillOpacity={this.state.malePercent/100} stroke={false}
             onMouseout={(cluster) => {
               console.log('mouseout circle');
               this.setState({ tooltipPosition: { lat: null, lng: null } })
