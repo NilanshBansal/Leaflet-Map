@@ -12,7 +12,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <h1>Welcome</h1>
+                <h1>Male Female Tweets Classification Clustering</h1>
                 {/* <OtherLayersExample />  */}
                 <SimpleExample />
             </div>
