@@ -57,7 +57,7 @@ export default class SimpleExample extends React.Component {
 
   getCoordinates() {
     console.log('here')
-    let URL = `http://api.geonames.org/searchJSON?q=${this.state.query}&maxRows=1&username=sanchittanwar7`
+    let URL = `https://secure.geonames.org/searchJSON?q=${this.state.query}&maxRows=1&username=nilanshbansal`
     fetch(URL, {
       method: 'GET'
     })
