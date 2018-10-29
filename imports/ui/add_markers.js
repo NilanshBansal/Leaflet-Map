@@ -22,8 +22,8 @@ export default class SimpleExample extends React.Component {
         zoom={13} 
         >
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+          url='https://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
         {this.state.markers.map((position, idx) => 
           <Marker key={`marker-${idx}`} position={position}>
