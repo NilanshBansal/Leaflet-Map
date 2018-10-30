@@ -94,7 +94,8 @@ export default class SimpleExample extends React.Component {
     });
 
     const maleMarker = L.icon({
-      iconUrl: '/images/myAvatar (1).svg',
+      // iconUrl: '/images/myAvatar (1).svg',
+      iconUrl: '/images/marker_map_icon.png',
       iconSize: [40, 40],
       iconAnchor: [40, 40],
       popupAnchor: [-20, -25],
@@ -102,7 +103,8 @@ export default class SimpleExample extends React.Component {
     });
 
     const femaleMarker = L.icon({
-      iconUrl: '/images/myAvatar (2).svg',
+      // iconUrl: '/images/myAvatar (2).svg',
+      iconUrl: '/images/marker_map_icon_blue.png',
       iconSize: [40, 40],
       iconAnchor: [40, 40],
       popupAnchor: [-20, -25],
